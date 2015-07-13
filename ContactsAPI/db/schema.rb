@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150713212758) do
+ActiveRecord::Schema.define(version: 20150713213013) do
+
+  create_table "contacts", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.text     "email",      null: false
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "contacts", ["user_id", "email"], name: "index_contacts_on_user_id_and_email", unique: true
 
   create_table "users", force: :cascade do |t|
     t.text     "username",   null: false
