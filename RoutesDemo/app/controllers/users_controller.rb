@@ -1,13 +1,14 @@
 class UsersController < ApplicationController
 
   def index
-    render text: "I'm in the index action!"
+    render json: params[:some_category]
   end
 
   def show
   end
 
   def create
+    render text: "Created!"
   end
 
   def edit
