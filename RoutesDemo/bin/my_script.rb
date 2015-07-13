@@ -5,13 +5,23 @@ url = Addressable::URI.new(
   scheme: 'http',
   host: 'localhost',
   port: 3000,
-  path: '/users.html',
-  query_values: {
-    'some_category[a_key]' => 'another value',
-    'some_category[a_second_key]' => 'yet another value',
-    'some_category[inner_inner_hash][key]' => 'value',
-    'something_else' => 'aaahhhhh'
-  }
+  path: '/users.html'
 ).to_s
 
-puts RestClient.get(url)
+#puts RestClient.get(url)
+
+def edit_user
+  url = Addressable::URI.new(
+    scheme: 'http',
+    host: 'localhost',
+    port: 3000,
+    path: '/users/3.json'
+  ).to_s
+
+  puts RestClient.patch(
+    url,
+    { user: { name: "Gadget", email: "gadget@cats.io"} }
+  )
+end
+
+edit_user
