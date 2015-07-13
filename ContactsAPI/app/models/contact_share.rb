@@ -15,4 +15,5 @@ class ContactShare < ActiveRecord::Base
     foreign_key: :contact_id,
     primary_key: :id
   )
+
 end
