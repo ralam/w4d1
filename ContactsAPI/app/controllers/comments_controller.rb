@@ -26,14 +26,9 @@ class CommentsController < ApplicationController
   end
 
   def create
-    p params
-
     @comment = Comment.new(comment_params)
-
     @comment.commentable_type = find_commentable_type
     @comment.commentable_id = find_commentable_id
-
-    p @comment
 
     if @comment.save
       render json: @comment
