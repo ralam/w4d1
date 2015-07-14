@@ -12,6 +12,12 @@ class CommentsController < ApplicationController
   end
 
   def update
+    @comment = Comment.find(params[:id])
+    if @comment.update(comment_params)
+      render json: @comment
+    else
+      render json: @comment.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   def show
@@ -20,6 +26,20 @@ class CommentsController < ApplicationController
   end
 
   def create
+    p params
+
+    @comment = Comment.new(comment_params)
+
+    @comment.commentable_type = find_commentable_type
+    @comment.commentable_id = find_commentable_id
+
+    p @comment
+
+    if @comment.save
+      render json: @comment
+    else
+      render json: @comment.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   private
@@ -28,6 +48,26 @@ class CommentsController < ApplicationController
       if name =~ /(.+)_id$/
         # $1 returns first thing this regex matches
         return $1.classify.constantize.find(value)
+      end
+    end
+    nil
+  end
+
+  def find_commentable_type
+    params.each do |name, value|
+      if name =~ /(.+)_id$/
+        # $1 returns first thing this regex matches
+        return $1.classify.constantize
+      end
+    end
+    nil
+  end
+
+  def find_commentable_id
+    params.each do |name, value|
+      if name =~ /(.+)_id$/
+        # $1 returns first thing this regex matches
+        return value
       end
     end
     nil
